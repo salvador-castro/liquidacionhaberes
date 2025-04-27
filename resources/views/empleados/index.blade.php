@@ -4,6 +4,12 @@
 <div class="container">
     <h1 class="mb-4">Empleados</h1>
 
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <a href="{{ route('empleados.create') }}" class="btn btn-primary mb-3">Agregar nuevo empleado</a>
 
     <table class="table table-bordered">
@@ -37,5 +43,9 @@
             @endforeach
         </tbody>
     </table>
+
+    <div class="mt-3">
+        {{ $empleados->links() }}
+    </div>
 </div>
 @endsection

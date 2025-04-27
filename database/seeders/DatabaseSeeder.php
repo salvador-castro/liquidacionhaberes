@@ -21,11 +21,11 @@ class DatabaseSeeder extends Seeder
 
         // Crear usuario de prueba y asignarle rol
         $user = User::factory()->create([
-            'name'  => 'Test User',
+            'name'  => 'Salva',
             'email' => 'salvacastro@frba.utn.edu.ar',
         ]);
 
         // Asignar rol 'super admin' al usuario
-        $user->assignRole('super admin');
+        $user->assignRole('Super Admin');
     }
 }

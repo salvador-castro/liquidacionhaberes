@@ -28,11 +28,12 @@
                         </x-nav-link>
                     @endcan --}}
 
-                    @role('super admin')
-                        <x-nav-link :href="route('usuarios.index')" :active="request()->routeIs('usuarios.*')">
-                            {{ __('Gestión de Usuarios') }}
-                        </x-nav-link>
-                    @endrole
+                    @hasanyrole('Super Admin|RRHH')
+    <x-nav-link :href="route('usuarios.index')" :active="request()->routeIs('usuarios.*')">
+        {{ __('Gestión de Usuarios') }}
+    </x-nav-link>
+@endhasanyrole
+
                 </div>
             </div>
 
@@ -100,11 +101,12 @@
                 </x-responsive-nav-link>
             @endcan --}}
 
-            @role('super admin')
-                <x-responsive-nav-link :href="route('usuarios.index')" :active="request()->routeIs('usuarios.*')">
+            @hasanyrole('Super Admin|RRHH')
+                <x-nav-link :href="route('usuarios.index')" :active="request()->routeIs('usuarios.*')">
                     {{ __('Gestión de Usuarios') }}
-                </x-responsive-nav-link>
-            @endrole
+                </x-nav-link>
+            @endhasanyrole
+
         </div>
 
         <!-- Opciones de Usuario en Responsive -->
