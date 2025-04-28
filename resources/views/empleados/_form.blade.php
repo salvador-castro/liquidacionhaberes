@@ -26,22 +26,31 @@
                 <!-- Nombre -->
                 <div>
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="nombre">Nombre</label>
-                    <input type="text" name="nombre" id="nombre" value="{{ old('nombre', $empleado->nombre) }}" required
+                    <input type="text" name="nombre" id="nombre" value="{{ old('nombre', $empleado->nombre ?? '') }}" required
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    @error('nombre')
+                        <span class="text-red-500 text-xs">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <!-- Apellido -->
                 <div>
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="apellido">Apellido</label>
-                    <input type="text" name="apellido" id="apellido" value="{{ old('apellido', $empleado->apellido) }}" required
+                    <input type="text" name="apellido" id="apellido" value="{{ old('apellido', $empleado->apellido ?? '') }}" required
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    @error('apellido')
+                        <span class="text-red-500 text-xs">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <!-- DNI -->
                 <div>
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="dni">DNI</label>
-                    <input type="number" name="dni" id="dni" value="{{ old('dni', $empleado->dni) }}" required
+                    <input type="text" name="dni" id="dni" value="{{ old('dni', $empleado->dni ?? '') }}" required
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    @error('dni')
+                        <span class="text-red-500 text-xs">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <!-- CUIL -->
@@ -68,8 +77,11 @@
                 <!-- Legajo -->
                 <div>
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="legajo">Legajo</label>
-                    <input type="number" name="legajo" id="legajo" value="{{ old('legajo', $empleado->legajo) }}"
+                    <input type="text" name="legajo" id="legajo" value="{{ old('legajo', $empleado->legajo ?? '') }}"
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    @error('legajo')
+                        <span class="text-red-500 text-xs">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <!-- Categoría -->
@@ -104,7 +116,7 @@
                 <a href="{{ route('empleados.index') }}" class="text-gray-600 hover:text-gray-800 mr-4">Cancelar</a>
                 <button type="submit"
                     class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    Actualizar empleado
+                    {{ isset($empleado) ? 'Actualizar empleado' : 'Crear empleado' }}
                 </button>
             </div>
         </form>

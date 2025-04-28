@@ -43,7 +43,6 @@ class EmpleadoController extends Controller
             abort(403, 'No autorizado.');
         }
 
-        // Logueamos todo lo que llega del formulario
         Log::debug('Formulario recibido:', $request->all());
 
         $validated = $request->validate([
@@ -52,7 +51,7 @@ class EmpleadoController extends Controller
             'dni' => 'required|numeric|unique:empleados,dni',
             'cuil' => 'nullable|numeric',
             'fecha_ingreso' => 'nullable|date',
-            'legajo' => 'nullable|numeric',
+            'legajo' => 'nullable|numeric|unique:empleados,legajo',
             'categoria_id' => 'nullable|exists:categorias,id',
             'estado' => 'required|string|max:20',
             'rol' => 'required|string',
@@ -60,20 +59,16 @@ class EmpleadoController extends Controller
             'password' => 'required|string|min:8',
         ]);
 
-        // Logueamos los datos validados
         Log::debug('Datos validados:', $validated);
 
-        // Crear usuario
         $user = User::create([
             'name' => $validated['nombre'] . ' ' . $validated['apellido'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
         ]);
 
-        // Asignar rol al usuario
         $user->assignRole($validated['rol']);
 
-        // Crear empleado
         $empleado = Empleado::create([
             'user_id' => $user->id,
             'nombre' => $validated['nombre'],
@@ -86,7 +81,6 @@ class EmpleadoController extends Controller
             'estado' => $validated['estado'],
         ]);
 
-        // Logueamos el empleado creado
         Log::debug('Empleado creado:', $empleado->toArray());
 
         return redirect()->route('empleados.index')->with('success', 'Empleado creado exitosamente.');
@@ -125,7 +119,7 @@ class EmpleadoController extends Controller
             'cuil' => 'nullable|numeric',
             'fecha_ingreso' => 'nullable|date',
             'fecha_egreso' => 'nullable|date',
-            'legajo' => 'nullable|numeric',
+            'legajo' => 'nullable|numeric|unique:empleados,legajo,' . $empleado->id,
             'categoria_id' => 'nullable|exists:categorias,id',
             'estado' => 'required|string|max:20',
         ]);
