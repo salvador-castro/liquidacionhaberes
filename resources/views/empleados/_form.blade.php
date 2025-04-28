@@ -1,100 +1,113 @@
-<div class="mb-3">
-    <label>Nombre</label>
-    <input type="text" name="nombre" class="form-control" value="{{ old('nombre', $empleado->nombre) }}">
-    @error('nombre')
-        <div class="text-danger small">{{ $message }}</div>
-    @enderror
-</div>
+@extends('layouts.app')
 
-<div class="mb-3">
-    <label>Apellido</label>
-    <input type="text" name="apellido" class="form-control" value="{{ old('apellido', $empleado->apellido) }}">
-    @error('apellido')
-        <div class="text-danger small">{{ $message }}</div>
-    @enderror
-</div>
+@section('content')
+<div class="max-w-4xl mx-auto py-10">
+    <div class="bg-white shadow-md rounded-lg p-8">
+        <h1 class="text-2xl font-bold mb-6 text-gray-800">Editar empleado</h1>
 
-<div class="mb-3">
-    <label>DNI</label>
-    <input type="text" name="dni" class="form-control" value="{{ old('dni', $empleado->dni) }}">
-    @error('dni')
-        <div class="text-danger small">{{ $message }}</div>
-    @enderror
-</div>
+        @if ($errors->any())
+            <div class="mb-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
+                <strong class="font-bold">¡Oops!</strong>
+                <span class="block">Hubo algunos problemas con tu entrada.</span>
+                <ul class="mt-3 list-disc list-inside text-sm">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-<div class="mb-3">
-    <label>CUIL</label>
-    <input type="text" name="cuil" class="form-control" value="{{ old('cuil', $empleado->cuil) }}">
-    @error('cuil')
-        <div class="text-danger small">{{ $message }}</div>
-    @enderror
-</div>
+        <form action="{{ route('empleados.update', $empleado->id) }}" method="POST">
+            @csrf
+            @method('PUT')
 
-<div class="mb-3">
-    <label>Fecha de Ingreso</label>
-    <input type="date" name="fecha_ingreso" class="form-control" value="{{ old('fecha_ingreso', $empleado->fecha_ingreso) }}">
-    @error('fecha_ingreso')
-        <div class="text-danger small">{{ $message }}</div>
-    @enderror
-</div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <!-- Nombre -->
+                <div>
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="nombre">Nombre</label>
+                    <input type="text" name="nombre" id="nombre" value="{{ old('nombre', $empleado->nombre) }}" required
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
 
-<div class="mb-3">
-    <label>Categoría</label>
-    <select name="categoria_id" class="form-control">
-        <option value="">-- Seleccionar --</option>
-        @foreach(App\Models\Categoria::all() as $categoria)
-            <option value="{{ $categoria->id }}" @if(old('categoria_id', $empleado->categoria_id) == $categoria->id) selected @endif>
-                {{ $categoria->nombre }}
-            </option>
-        @endforeach
-    </select>
-    @error('categoria_id')
-        <div class="text-danger small">{{ $message }}</div>
-    @enderror
-</div>
+                <!-- Apellido -->
+                <div>
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="apellido">Apellido</label>
+                    <input type="text" name="apellido" id="apellido" value="{{ old('apellido', $empleado->apellido) }}" required
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
 
-<div class="mb-3">
-    <label>Sueldo Básico</label>
-    <input type="number" name="sueldo_basico" class="form-control" value="{{ old('sueldo_basico', $empleado->sueldo_basico) }}">
-    @error('sueldo_basico')
-        <div class="text-danger small">{{ $message }}</div>
-    @enderror
-</div>
+                <!-- DNI -->
+                <div>
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="dni">DNI</label>
+                    <input type="number" name="dni" id="dni" value="{{ old('dni', $empleado->dni) }}" required
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
 
-<div class="mb-3">
-    <label>Estado</label>
-    <select name="estado" class="form-control">
-        <option value="activo" @selected(old('estado', $empleado->estado) === 'activo')>Activo</option>
-        <option value="inactivo" @selected(old('estado', $empleado->estado) === 'inactivo')>Inactivo</option>
-    </select>
-    @error('estado')
-        <div class="text-danger small">{{ $message }}</div>
-    @enderror
-</div>
+                <!-- CUIL -->
+                <div>
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="cuil">CUIL</label>
+                    <input type="number" name="cuil" id="cuil" value="{{ old('cuil', $empleado->cuil) }}"
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
 
-<div class="mb-3">
-    <label>Fecha de Nacimiento</label>
-    <input type="date" name="fecha_nacimiento" class="form-control" value="{{ old('fecha_nacimiento', $empleado->fecha_nacimiento) }}">
-    @error('fecha_nacimiento')
-        <div class="text-danger small">{{ $message }}</div>
-    @enderror
-</div>
+                <!-- Fecha de ingreso -->
+                <div>
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="fecha_ingreso">Fecha de Ingreso</label>
+                    <input type="date" name="fecha_ingreso" id="fecha_ingreso" value="{{ old('fecha_ingreso', $empleado->fecha_ingreso) }}"
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
 
-<div class="mb-3">
-    <label>Dirección</label>
-    <input type="text" name="direccion" class="form-control" value="{{ old('direccion', $empleado->direccion) }}">
-    @error('direccion')
-        <div class="text-danger small">{{ $message }}</div>
-    @enderror
-</div>
+                <!-- Fecha de egreso -->
+                <div>
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="fecha_egreso">Fecha de Egreso</label>
+                    <input type="date" name="fecha_egreso" id="fecha_egreso" value="{{ old('fecha_egreso', $empleado->fecha_egreso) }}"
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
 
-<div class="mb-3">
-    <label>Teléfono</label>
-    <input type="text" name="telefono" class="form-control" value="{{ old('telefono', $empleado->telefono) }}">
-    @error('telefono')
-        <div class="text-danger small">{{ $message }}</div>
-    @enderror
-</div>
+                <!-- Legajo -->
+                <div>
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="legajo">Legajo</label>
+                    <input type="number" name="legajo" id="legajo" value="{{ old('legajo', $empleado->legajo) }}"
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
 
-<button type="submit" class="btn btn-success">Guardar</button>
-<a href="{{ route('empleados.index') }}" class="btn btn-secondary">Volver</a>
+                <!-- Categoría -->
+                <div>
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="categoria_id">Categoría</label>
+                    <select name="categoria_id" id="categoria_id"
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="">Seleccione categoría</option>
+                        @foreach ($categorias as $categoria)
+                            <option value="{{ $categoria->id }}" {{ old('categoria_id', $empleado->categoria_id) == $categoria->id ? 'selected' : '' }}>
+                                {{ $categoria->id }} - {{ $categoria->nombre }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <!-- Estado -->
+                <div>
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="estado">Estado</label>
+                    <select name="estado" id="estado" required
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="">Seleccione estado</option>
+                        <option value="trabajando" {{ old('estado', $empleado->estado) == 'trabajando' ? 'selected' : '' }}>Trabajando</option>
+                        <option value="jubilado" {{ old('estado', $empleado->estado) == 'jubilado' ? 'selected' : '' }}>Jubilado</option>
+                        <option value="no activo" {{ old('estado', $empleado->estado) == 'no activo' ? 'selected' : '' }}>No activo</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="flex items-center justify-end mt-8">
+                <a href="{{ route('empleados.index') }}" class="text-gray-600 hover:text-gray-800 mr-4">Cancelar</a>
+                <button type="submit"
+                    class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    Actualizar empleado
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+@endsection
