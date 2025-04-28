@@ -3,13 +3,15 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Liquidación de haberes') }}</title>
 
     <!-- Estilos -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <!-- AlpineJS -->
     <script src="//unpkg.com/alpinejs" defer></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
 <body class="font-sans antialiased">
 

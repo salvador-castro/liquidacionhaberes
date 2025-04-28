@@ -16,11 +16,11 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
-                    @can('ver empleados')
+                    @hasanyrole('Super Admin|RRHH')
                         <x-nav-link :href="route('empleados.index')" :active="request()->routeIs('empleados.*')">
                             {{ __('Empleados') }}
                         </x-nav-link>
-                    @endcan
+                    @endhasanyrole
 
                     {{-- @can('ver categorias')
                         <x-nav-link :href="route('categorias.index')" :active="request()->routeIs('categorias.*')">
@@ -29,10 +29,10 @@
                     @endcan --}}
 
                     @hasanyrole('Super Admin|RRHH')
-    <x-nav-link :href="route('usuarios.index')" :active="request()->routeIs('usuarios.*')">
-        {{ __('Gestión de Usuarios') }}
-    </x-nav-link>
-@endhasanyrole
+                        <x-nav-link :href="route('usuarios.index')" :active="request()->routeIs('usuarios.*')">
+                            {{ __('Gestión de Usuarios') }}
+                        </x-nav-link>
+                    @endhasanyrole
 
                 </div>
             </div>
@@ -89,11 +89,11 @@
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
 
-            @can('ver empleados')
+            @hasanyrole('Super Admin|RRHH')
                 <x-responsive-nav-link :href="route('empleados.index')" :active="request()->routeIs('empleados.*')">
                     {{ __('Empleados') }}
                 </x-responsive-nav-link>
-            @endcan
+            @endhasanyrole
 
             {{-- @can('ver categorias')
                 <x-responsive-nav-link :href="route('categorias.index')" :active="request()->routeIs('categorias.*')">
@@ -102,9 +102,9 @@
             @endcan --}}
 
             @hasanyrole('Super Admin|RRHH')
-                <x-nav-link :href="route('usuarios.index')" :active="request()->routeIs('usuarios.*')">
+                <x-responsive-nav-link :href="route('usuarios.index')" :active="request()->routeIs('usuarios.*')">
                     {{ __('Gestión de Usuarios') }}
-                </x-nav-link>
+                </x-responsive-nav-link>
             @endhasanyrole
 
         </div>

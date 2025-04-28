@@ -95,16 +95,22 @@
                             </span>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-center">
-                            <a href="{{ route('empleados.edit', $empleado) }}" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 mr-2">
-                                Editar
+                            <!-- Botón Editar (gris) -->
+                            <a href="{{ route('empleados.edit', $empleado->id) }}" 
+                                class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-1 px-3 rounded-lg shadow text-sm mr-2 inline-flex items-center gap-1">
+                                <i class="fas fa-edit"></i>Editar
                             </a>
-                            <form action="{{ route('empleados.destroy', $empleado) }}" method="POST" class="inline-block" onsubmit="return confirm('¿Seguro que deseas eliminar este empleado?');">
+
+                            <!-- Botón Eliminar (rojo) -->
+                            <form action="{{ route('empleados.destroy', $empleado->id) }}" method="POST" class="inline-block">
                                 @csrf
                                 @method('DELETE')
-                                <button class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">
-                                    Eliminar
+                                <button type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar este empleado?')"
+                                    class="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-3 rounded-lg shadow text-sm inline-flex items-center gap-1">
+                                    <i class="fas fa-trash"></i>Eliminar
                                 </button>
                             </form>
+
                         </td>
                     </tr>
                 @endforeach

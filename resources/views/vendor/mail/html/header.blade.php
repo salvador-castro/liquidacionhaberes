@@ -3,7 +3,7 @@
 <td class="header">
 <a href="{{ $url }}" style="display: inline-block;">
 @if (trim($slot) === 'Liquidación de Haberes')
-<img src="https://laravel.com/img/notification-logo.png" class="logo" alt="Laravel Logo">
+<img src="public/img/foto-perfil.jpeg" class="logo" alt="Laravel Logo">
 @else
 {{ $slot }}
 @endif

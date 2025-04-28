@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\Log;
 
 class EmpleadoController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role:Super Admin|RRHH');
+    }
+
     public function index(Request $request)
     {
         $search = $request->input('search');
@@ -29,20 +34,12 @@ class EmpleadoController extends Controller
 
     public function create()
     {
-        if (!auth()->user()->hasRole(['Super Admin', 'RRHH'])) {
-            abort(403, 'No autorizado.');
-        }
-
         $categorias = Categoria::all();
         return view('empleados.create', compact('categorias'));
     }
 
     public function store(Request $request)
     {
-        if (!auth()->user()->hasRole(['Super Admin', 'RRHH'])) {
-            abort(403, 'No autorizado.');
-        }
-
         Log::debug('Formulario recibido:', $request->all());
 
         $validated = $request->validate([
@@ -94,10 +91,6 @@ class EmpleadoController extends Controller
 
     public function edit($id)
     {
-        if (!auth()->user()->hasRole(['Super Admin', 'RRHH'])) {
-            abort(403, 'No autorizado.');
-        }
-
         $empleado = Empleado::findOrFail($id);
         $categorias = Categoria::all();
 
@@ -106,10 +99,6 @@ class EmpleadoController extends Controller
 
     public function update(Request $request, $id)
     {
-        if (!auth()->user()->hasRole(['Super Admin', 'RRHH'])) {
-            abort(403, 'No autorizado.');
-        }
-
         $empleado = Empleado::findOrFail($id);
 
         $validated = $request->validate([
@@ -137,10 +126,6 @@ class EmpleadoController extends Controller
 
     public function destroy($id)
     {
-        if (!auth()->user()->hasRole(['Super Admin', 'RRHH'])) {
-            abort(403, 'No autorizado.');
-        }
-
         $empleado = Empleado::findOrFail($id);
 
         if ($empleado->user) {

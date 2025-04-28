@@ -22,17 +22,14 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Super Admin y RRHH pueden gestionar usuarios
-    Route::middleware('role:super admin|rrhh')->group(function () {
-        Route::get('/usuarios', [UsuariosController::class, 'index'])->name('usuarios.index');
-        Route::get('/usuarios/{user}/edit', [UsuariosController::class, 'edit'])->name('usuarios.edit');
-        Route::put('/usuarios/{user}', [UsuariosController::class, 'update'])->name('usuarios.update');
-    });
+    // Rutas de usuarios SIN middleware role aquí
+    Route::get('/usuarios', [UsuariosController::class, 'index'])->name('usuarios.index');
+    Route::get('/usuarios/{user}/edit', [UsuariosController::class, 'edit'])->name('usuarios.edit');
+    Route::put('/usuarios/{user}', [UsuariosController::class, 'update'])->name('usuarios.update');
 
-    // Rutas para forzar cambio de contraseña
+    // Cambio de contraseña
     Route::get('/password/change', [PasswordChangeController::class, 'showChangeForm'])->name('password.change');
     Route::post('/password/update', [PasswordChangeController::class, 'updatePassword'])->name('password.update');
 });
-
 // Rutas de autenticación (login, register, etc.)
 require __DIR__.'/auth.php';
