@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Spatie\Permission\Models\Role;
+use App\Mail\SolicitudCambioPassword;
+use Illuminate\Support\Facades\Mail;
 
 class UsuariosController extends Controller
 {
@@ -42,29 +44,28 @@ class UsuariosController extends Controller
     }
 
     public function update(Request $request, User $user)
-{
-    $data = $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|email|unique:users,email,' . $user->id,
-        'password' => 'nullable|string|min:6',
-        'role' => 'required|exists:roles,id',
-    ]);
+    {
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'password' => 'nullable|string|min:6',
+            'role' => 'required|exists:roles,id',
+        ]);
 
-    $user->name = $data['name'];
-    $user->email = $data['email'];
+        $user->name = $data['name'];
+        $user->email = $data['email'];
 
-    if (!empty($data['password'])) {
-        $user->password = bcrypt($data['password']);
-        // 🔔 Enviar mail con instrucción para cambiarla (ver siguiente sección)
-        Mail::to($user->email)->send(new SolicitudCambioPassword($user));
-    }
+        if (!empty($data['password'])) {
+            $user->password = bcrypt($data['password']);
+            $user->password_changed = false;
+            Mail::to($user->email)->send(new SolicitudCambioPassword($user));
+        }
 
-    $user->save();
+        $user->save();
 
-    $role = \Spatie\Permission\Models\Role::findById($data['role']);
-    $user->syncRoles([$role->name]);
+        $role = \Spatie\Permission\Models\Role::findById($data['role']);
+        $user->syncRoles([$role->name]);
 
-    return redirect()->route('usuarios.index')->with('success', 'Usuario actualizado correctamente.');
+        return redirect()->route('usuarios.index')->with('success', 'Usuario actualizado correctamente.');
 }
-
-    }
+}

@@ -24,13 +24,37 @@
             </div>
 
             <div class="mb-4">
-                <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Contraseña Provisoria (opcional)
-                </label>
-                <input type="text" name="password" id="password"
-                       class="block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-700 dark:text-white shadow-sm">
-                @error('password') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
+            <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Contraseña Provisoria (opcional)
+            </label>
+            <div class="relative">
+                <input type="password" name="password" id="password"
+                    class="block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-700 dark:text-white shadow-sm pr-10">
+                <button type="button"
+                        onclick="togglePasswordVisibility()"
+                        class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-600 dark:text-gray-300 focus:outline-none">
+                    <i id="password-toggle-icon" class="fa-solid fa-eye"></i>
+                </button>
             </div>
+            @error('password') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
+        </div>
+
+        <script>
+            function togglePasswordVisibility() {
+                const input = document.getElementById('password');
+                const icon = document.getElementById('password-toggle-icon');
+
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    input.type = 'password';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
+            }
+        </script>
 
             <div class="mb-4">
                 <label for="role" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Rol</label>
