@@ -110,7 +110,6 @@
                                     <i class="fas fa-trash"></i>Eliminar
                                 </button>
                             </form>
-
                         </td>
                     </tr>
                 @endforeach

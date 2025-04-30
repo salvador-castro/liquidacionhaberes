@@ -22,10 +22,14 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Rutas de usuarios SIN middleware role aquí
+    // Rutas de usuarios
     Route::get('/usuarios', [UsuariosController::class, 'index'])->name('usuarios.index');
+    Route::get('/usuarios/create', [UsuariosController::class, 'create'])->name('usuarios.create');
+    Route::post('/usuarios', [UsuariosController::class, 'store'])->name('usuarios.store');
     Route::get('/usuarios/{user}/edit', [UsuariosController::class, 'edit'])->name('usuarios.edit');
     Route::put('/usuarios/{user}', [UsuariosController::class, 'update'])->name('usuarios.update');
+    Route::delete('/usuarios/{user}', [UsuariosController::class, 'destroy'])->name('usuarios.destroy'); // ✅ esta es la nueva
+
 
     // Cambio de contraseña
     Route::get('/password/change', [PasswordChangeController::class, 'showChangeForm'])->name('password.change');

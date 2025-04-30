@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View; // ✅ CORRECTO: esto va acá arriba, fuera de la clase
 
 class UsuariosController extends Controller
 {
@@ -13,10 +14,24 @@ class UsuariosController extends Controller
         $this->middleware(['role:Super Admin|RRHH']);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $usuarios = User::orderBy('name')->paginate(15);
-        return view('usuarios.index', compact('usuarios'));
+        $search = $request->input('search');
+    
+        $usuarios = \App\Models\User::query()
+            ->when($search, function ($query, $search) {
+                $query->where('name', 'like', "%{$search}%")
+                      ->orWhere('email', 'like', "%{$search}%");
+            })
+            ->orderBy('name')
+            ->paginate(10);
+    
+        return view('usuarios.index', compact('usuarios')); // ✅ Esta línea es indispensable
+    }    
+
+    public function create()
+    {
+        return view('usuarios.create');
     }
 
     public function edit(User $user)
@@ -29,7 +44,6 @@ class UsuariosController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
-            // Agregá acá otros campos si es necesario
         ]);
 
         $user->update($validated);

@@ -10,7 +10,6 @@ class PermissionSeeder extends Seeder
 {
     public function run(): void
     {
-        // Eliminar roles y permisos existentes (opcional, en entorno de desarrollo)
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
         // Crear permisos generales
@@ -25,6 +24,9 @@ class PermissionSeeder extends Seeder
             'crear categorias',
             'editar categorias',
             'eliminar categorias',
+            // 👇 Agregamos permisos de gestión de usuarios
+            'ver usuarios',
+            'editar usuarios',
         ];
 
         foreach ($permisos as $permiso) {
@@ -35,7 +37,6 @@ class PermissionSeeder extends Seeder
         $superAdmin = Role::firstOrCreate(['name' => 'Super Admin']);
         $rrhh = Role::firstOrCreate(['name' => 'RRHH']);
         $empleado = Role::firstOrCreate(['name' => 'Empleado Empresa']);
-
 
         // Asignar todos los permisos al Super Admin
         $superAdmin->syncPermissions(Permission::all());
@@ -48,9 +49,10 @@ class PermissionSeeder extends Seeder
             'ver liquidaciones',
             'generar liquidaciones',
             'ver categorias',
+            'ver usuarios', // (agregado también a RRHH si querés)
         ]);
 
-        // Asignar permisos al Empleado empresa (sólo consulta)
+        // Asignar permisos al Empleado empresa
         $empleado->syncPermissions([
             'ver empleados',
             'ver liquidaciones',
