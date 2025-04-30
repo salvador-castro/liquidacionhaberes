@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\View; // ✅ CORRECTO: esto va acá arriba, fuera de la clase
+use Illuminate\Support\Facades\View;
+use Spatie\Permission\Models\Role;
 
 class UsuariosController extends Controller
 {
@@ -36,18 +37,34 @@ class UsuariosController extends Controller
 
     public function edit(User $user)
     {
-        return view('usuarios.edit', compact('user'));
+        $roles = Role::pluck('name', 'id'); // [id => name] para el select
+        return view('usuarios.edit', compact('user', 'roles'));
     }
 
     public function update(Request $request, User $user)
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id,
-        ]);
+{
+    $data = $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email,' . $user->id,
+        'password' => 'nullable|string|min:6',
+        'role' => 'required|exists:roles,id',
+    ]);
 
-        $user->update($validated);
+    $user->name = $data['name'];
+    $user->email = $data['email'];
 
-        return redirect()->route('usuarios.index')->with('success', 'Usuario actualizado exitosamente.');
+    if (!empty($data['password'])) {
+        $user->password = bcrypt($data['password']);
+        // 🔔 Enviar mail con instrucción para cambiarla (ver siguiente sección)
+        Mail::to($user->email)->send(new SolicitudCambioPassword($user));
     }
+
+    $user->save();
+
+    $role = \Spatie\Permission\Models\Role::findById($data['role']);
+    $user->syncRoles([$role->name]);
+
+    return redirect()->route('usuarios.index')->with('success', 'Usuario actualizado correctamente.');
 }
+
+    }

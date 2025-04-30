@@ -18,7 +18,7 @@
                 type="text" 
                 name="search" 
                 value="{{ request('search') }}" 
-                placeholder="Buscar por nombre, apellido o DNI..." 
+                placeholder="Buscar por nombre o apellido" 
                 class="w-full pl-10 pr-4 py-2 rounded-lg shadow-sm border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
             >
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -47,23 +47,22 @@
                                 {{ method_exists($usuario, 'getRoleNames') ? $usuario->getRoleNames()->implode(', ') : 'Sin rol' }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-center">
-    <!-- Botón Editar (gris) -->
-    <a href="{{ route('usuarios.edit', $usuario->id) }}" 
-        class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-1 px-3 rounded-lg shadow text-sm mr-2 inline-flex items-center gap-1">
-        <i class="fas fa-edit"></i>Editar
-    </a>
+                            <!-- Botón Editar (gris) -->
+                            <a href="{{ route('usuarios.edit', $usuario->id) }}" 
+                                class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-1 px-3 rounded-lg shadow text-sm mr-2 inline-flex items-center gap-1">
+                                <i class="fas fa-edit"></i>Editar
+                            </a>
 
-    <!-- Botón Eliminar (rojo) -->
-    <form action="{{ route('usuarios.destroy', $usuario->id) }}" method="POST" class="inline-block">
-        @csrf
-        @method('DELETE')
-        <button type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar este usuario?')"
-            class="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-3 rounded-lg shadow text-sm inline-flex items-center gap-1">
-            <i class="fas fa-trash"></i>Eliminar
-        </button>
-    </form>
-</td>
-
+                            <!-- Botón Eliminar (rojo) -->
+                            <form action="{{ route('usuarios.destroy', $usuario->id) }}" method="POST" class="inline-block">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar este usuario?')"
+                                    class="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-3 rounded-lg shadow text-sm inline-flex items-center gap-1">
+                                    <i class="fas fa-trash"></i>Eliminar
+                                </button>
+                            </form>
+                        </td>
                         </tr>
                     @endforeach
                 </tbody>

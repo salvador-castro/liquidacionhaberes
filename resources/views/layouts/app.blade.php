@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ config('app.name', 'Liquidación de haberes') }}</title>
+    <title>{{ config('app.name') }} – @yield('title', 'Inicio') </title>
 
     <!-- Estilos -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
