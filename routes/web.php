@@ -5,9 +5,10 @@ use App\Http\Controllers\EmpleadoController;
 use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\PasswordChangeController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/login');
 });
 
 // Rutas de autenticación (login, register, etc.)
@@ -23,9 +24,7 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth', 'force_password_change'])->group(function () {
     Route::resource('empleados', EmpleadoController::class);
 
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

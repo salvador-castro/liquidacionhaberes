@@ -20,6 +20,12 @@
         
         <!-- Contenido de cada página -->
         <main>
+            {{-- Si $slot está definido, se usa (para <x-app-layout>) --}}
+            @isset($slot)
+                {{ $slot }}
+            @endisset
+
+            {{-- Si se usa @extends + @section --}}
             @yield('content')
         </main>
     </div>
